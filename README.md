@@ -1,27 +1,25 @@
  # siamFCppwarp
-C++ Implementation siamfcpp  from [SiamTrackers:siamFcpp](https://github.com/HonglinChu/SiamTrackers)
-test on GTX1660 CUDA 11.1
+## get sub window
 
-## video sample
-1.CPU(FPS 13)
+```
+ cv::Mat warp_matrix(2, 3, CV_32FC1);
+	float M_13 = target.x  - original_sz / 2; 
+	float M_23 = target.y  - original_sz / 2; 
+	float M_11 = 1.0 * original_sz / model_sz;
+	float M_22 = 1.0 * original_sz / model_sz; //float M_22 =original_sz / 1.0*(model_sz - 1);
 
+	warp_matrix.at<float>(0, 0) = M_11;
+	warp_matrix.at<float>(0, 1) = 0;
+	warp_matrix.at<float>(0, 2) = M_13;
+	warp_matrix.at<float>(1, 0) = 0;
+	warp_matrix.at<float>(1, 1) = M_22;
+	warp_matrix.at<float>(1, 2) = M_23;
+	
+	cv::Mat patch;
+	cv::warpAffine(img, patch,	warp_matrix, cv::Size(crop_size, crop_size),	cv::INTER_LINEAR | cv::WARP_INVERSE_MAP,	cv::BORDER_CONSTANT,
+		avg_chans);
 
-[cPU_implement](https://user-images.githubusercontent.com/51977158/130018392-93a7cd5c-f893-4e40-8b36-3206312a248b.mp4)
-
-2.Gpu(FPS 96)
-
-
-[GPU_implement](
-https://user-images.githubusercontent.com/51977158/130159650-60574617-cc02-44d2-89eb-438c85dffc4b.mp4
-)
-
-# pre_model trans python-libtorch
-[baiduwangpan code:9m6d](https://pan.baidu.com/s/1Th7M6hQgGyKpe9u4ZpWxFA)
-# environment
-1.opencv-4.5.1-vc14_vc15
-
-2.libtorch-win-shared-with-deps-1.9.0+cu111
-
+```
 #References 
 
 
